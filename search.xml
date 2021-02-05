@@ -854,4 +854,73 @@
         <tag>递推</tag>
       </tags>
   </entry>
+  <entry>
+    <title>「LGOJ」车站</title>
+    <url>/2021/02/05/%E3%80%8CLGOJ%E3%80%8D%E8%BD%A6%E7%AB%99/</url>
+    <content><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>​        火车从始发站（称为第 $1$ 站）开出，在始发站上车的人数为 $a$，然后到达第 $2$ 站，在第 $2$ 站有人上、下车，但上、下车的人数相同，因此在第 $2$ 站开出时（即在到达第 $3$ 站之前）车上的人数保持为 $a$ 人。从第 $3$ 站起（包括第 $3$ 站）上、下车的人数有一定规律：上车的人数都是前两站上车人数之和，而下车人数等于上一站上车人数，一直到终点站的前一站（第 $(n-1)$ 站），都满足此规律。现给出的条件是：共有 $n$ 个车站，始发站上车的人数为 $a$ ，最后一站下车的人数是 $m$（全部下车）。试问 $x$ 站开出时车上的人数是多少？</p>
+<p>​        <a href="https://www.luogu.com.cn/problem/P1011">Link</a></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>​    第一眼考虑可以找规律推公式的</p>
+<p>​    我们不妨设a为本来是人数，b为增加的人数</p>
+<p>​    </p>
+<table>
+<thead>
+<tr>
+<th align="center">站台数N</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">…</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">上客数</td>
+<td align="center">a</td>
+<td align="center">b</td>
+<td align="center">a+b</td>
+<td align="center">a+2b</td>
+<td align="center">2a+3b</td>
+<td align="center">3a+5b</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="center">下客数</td>
+<td align="center">0</td>
+<td align="center">b</td>
+<td align="center">b</td>
+<td align="center">a+b</td>
+<td align="center">a+2b</td>
+<td align="center">2a+3b</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="center">总数</td>
+<td align="center">a</td>
+<td align="center">a</td>
+<td align="center">2a</td>
+<td align="center">2a+b</td>
+<td align="center">3a+2b</td>
+<td align="center">4a+4b</td>
+<td align="center">…</td>
+</tr>
+</tbody></table>
+<p>设a系数为p_{i},b系数为q_{i}</p>
+<a id="more"></a>
+
+<p>则有<br>$$<br>P_{i}=p_{i-1}+p_{i-2}-1<br>$$</p>
+<p>$$<br>q_{i}=q_{i-1}+q_{i-2}+1<br>$$</p>
+<p>注意前两项都为无规律，初始化注意啦</p>
+<p>然后根据m列方程解出来即可 ，有：<br>$$<br>b =  ( m - p[n-1] * a ) / q[n-1];<br>$$</p>
+<p>$$<br>ans = p[x] * b + q[x] * y;<br>$$</p>
+<p>答案就出来啦qwq</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RE register</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a,n,m,x,y,ans,p[<span class="number">30</span>],q[<span class="number">30</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">fread</span><span class="params">(<span class="keyword">int</span> &amp;x)</span> </span>&#123;</span><br><span class="line">    x = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> f = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">char</span> ch = getchar();</span><br><span class="line">    <span class="keyword">while</span>(ch &lt; <span class="string">&#x27;0&#x27;</span>||ch &gt; <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ch == <span class="string">&#x27;-&#x27;</span>) f = <span class="number">-1</span>;</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span>&amp;&amp;ch &lt;= <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">        x = (x&lt;&lt;<span class="number">3</span>) + (x&lt;&lt;<span class="number">1</span>) + (ch^<span class="number">48</span>);</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    x = x * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    fread(a);</span><br><span class="line">    fread(n);</span><br><span class="line">    fread(m);</span><br><span class="line">    fread(x);</span><br><span class="line">    p[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    p[<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">    p[<span class="number">3</span>] = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">for</span>(RE <span class="keyword">int</span> i = <span class="number">4</span>; i &lt; n;i++) &#123;</span><br><span class="line">        p[i] = p[i<span class="number">-1</span>] + p[i<span class="number">-2</span>] - <span class="number">1</span>;</span><br><span class="line">        q[i] = q[i<span class="number">-1</span>] + q[i<span class="number">-2</span>] + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    y =  ( m - p[n<span class="number">-1</span>] * a ) / q[n<span class="number">-1</span>];</span><br><span class="line">    ans = p[x] * a + q[x] * y;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,ans);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>模拟</tag>
+        <tag>数论</tag>
+        <tag>结论</tag>
+      </tags>
+  </entry>
 </search>
