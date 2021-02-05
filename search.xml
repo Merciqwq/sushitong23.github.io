@@ -824,4 +824,34 @@
         <tag>Math</tag>
       </tags>
   </entry>
+  <entry>
+    <title>「LGOJ」信封问题／错排／放棋子</title>
+    <url>/2021/02/05/%E3%80%8CLGOJ%E3%80%8D%E4%BF%A1%E5%B0%81%E9%97%AE%E9%A2%98%EF%BC%8F%E9%94%99%E6%8E%92/</url>
+    <content><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>​        <strong>某人写了n封信和n个信封，如果所有的信都装错了信封。求所有信都装错信封共有多少种不同情况</strong></p>
+<p>​        <a href="https://www.luogu.com.cn/problem/P1595">link</a></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>​        我们记$D(i)$为当有i个信封的总共情况数量</p>
+<p>​        特别的：<br>$$<br>D_{1}=0,D_{2}=1,D_{3}=2<br>$$<br>​        现在多了一个信封，那么为了错开，这个信$n$，除了他本身第$n$个信封不能放</p>
+<p>​        其他都可以放，那么有$n-1$个位置可以放.那么剩下就有$D_{i-1}$种可能，所以</p>
+<p>$$<br>D_{i}=(i-1)\times D_{i-1}<br>$$</p>
+<p>​        巴特！还没完！对于一个信k,我们可以分为两种情况</p>
+<a id="more"></a>
+
+<ul>
+<li><p>K放进了n号信封</p>
+</li>
+<li><p>K没有放进n号信封</p>
+<pre><code>  对于K放进了n号信封时，不难发现还有$D_&#123;i-1&#125;$种情况
+</code></pre>
+</li>
+</ul>
+<p>​    </p>
+<p>$$<br>把 n 号球放进：<br>1号箱子 \longrightarrow D_{n-2}+D_{n-1}\<br>\\<br>2号箱子 \longrightarrow D_{n-2}+D_{n-1}D \<br>(k-1)号箱子 \longrightarrow D_{n-2}+D_{n-1}\<br>\text{k}号箱子 \longrightarrow D_{n-2}+D_{n-1}\<br>$$</p>
+<p>​        得到递推式子<br>$$<br>D_{i}=(D_{i-1}+D_{i-2}) \times (i-1)<br>$$</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RE register</span></span><br><span class="line"></span><br><span class="line">ll n,f[<span class="number">30</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">fread</span><span class="params">(ll &amp;x)</span> </span>&#123;</span><br><span class="line">    x = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> f = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">char</span> ch = getchar();</span><br><span class="line">    <span class="keyword">while</span>(ch &lt; <span class="string">&#x27;0&#x27;</span>||ch &gt; <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ch == <span class="string">&#x27;-&#x27;</span>) f = <span class="number">-1</span>;</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span>&amp;&amp;ch &lt;= <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">        x = (x&lt;&lt;<span class="number">3</span>) + (x&lt;&lt;<span class="number">1</span>) + (ch^<span class="number">48</span>);</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    x = x * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    f[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    f[<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">    f[<span class="number">3</span>] = <span class="number">2</span>;</span><br><span class="line">    fread(n);</span><br><span class="line">    <span class="keyword">for</span>(RE <span class="keyword">int</span> i = <span class="number">4</span>; i &lt;= n;i++)</span><br><span class="line">        f[i] = (f[i<span class="number">-1</span>] + f[i<span class="number">-2</span>]) * (i<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span>,f[n]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>数论</tag>
+        <tag>递推</tag>
+      </tags>
+  </entry>
 </search>
