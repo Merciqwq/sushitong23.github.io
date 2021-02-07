@@ -973,4 +973,28 @@
         <tag>bfs/dfs</tag>
       </tags>
   </entry>
+  <entry>
+    <title>「LGOJ」数楼梯</title>
+    <url>/2021/02/07/%E3%80%8CLGOJ%E3%80%8D%E6%95%B0%E6%A5%BC%E6%A2%AF/</url>
+    <content><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>​        楼梯有 <em>N</em> 阶，上楼可以一步上一阶，也可以一步上二阶。</p>
+<p>​        编一个程序，计算共有多少种不同的走法</p>
+<p>​        <a href="https://www.luogu.com.cn/problem/P1255">link</a></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>​        手玩一下样例和推推式子，很容易发现这是个斐波那契数列<br>$$<br>f[k]=f[k-1]+f[k-2]<br>$$<br>​        但是要高精度打一下，故此记录一下哈哈哈qwq</p>
+<a id="more"></a>
+
+
+
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RE register</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n,f[<span class="number">5010</span>][<span class="number">5010</span>],cnt=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">fread</span><span class="params">(<span class="keyword">int</span> &amp;x)</span> </span>&#123;</span><br><span class="line">    x = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> f = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">char</span> ch = getchar();</span><br><span class="line">    <span class="keyword">while</span>(ch &lt; <span class="string">&#x27;0&#x27;</span>||ch &gt; <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ch == <span class="string">&#x27;-&#x27;</span>) f = <span class="number">-1</span>;</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span>&amp;&amp;ch &lt;= <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">        x = (x&lt;&lt;<span class="number">3</span>) + (x&lt;&lt;<span class="number">1</span>) + (ch^<span class="number">48</span>);</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    x = x * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">sovle</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(RE <span class="keyword">int</span> i = <span class="number">1</span> ;i &lt;= cnt; i++) </span><br><span class="line">        f[x][i] = f[x<span class="number">-1</span>][i] + f[x<span class="number">-2</span>][i];</span><br><span class="line">    <span class="keyword">for</span>(RE <span class="keyword">int</span> i = <span class="number">1</span> ;i &lt;= cnt; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(f[x][i] &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">            f[x][i+<span class="number">1</span>] += f[x][i] / <span class="number">10</span>;</span><br><span class="line">            f[x][i] = f[x][i] % <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span>(f[x][cnt+<span class="number">1</span>]) cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    fread(n);</span><br><span class="line">    f[<span class="number">1</span>][<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    f[<span class="number">2</span>][<span class="number">1</span>] = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">for</span>(RE <span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= n; i++) sovle(i);</span><br><span class="line">    <span class="keyword">for</span>(RE <span class="keyword">int</span> i = cnt; i &gt;= <span class="number">1</span>; i--) </span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,f[n][i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>​    </p>
+]]></content>
+      <tags>
+        <tag>数论</tag>
+        <tag>高精度</tag>
+        <tag>斐波那契</tag>
+      </tags>
+  </entry>
 </search>
